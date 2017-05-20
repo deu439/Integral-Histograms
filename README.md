@@ -1,17 +1,15 @@
-Integral histograms
-
-This is implementation of integral histograms as described in [1]. It can be 
-used for object detection and localization. We used it for change detection 
-with LTP textural descriptors. Because of this our implementation is in some 
-aspects specialized for this problem.
+This is OpenCV implementation of integral histograms as described in [1]. It 
+can be used for object detection and localization. We used it for change 
+detection with LTP textural descriptors. Because of this our implementation is 
+in some aspects specialized for this problem.
 
 We implemented three specific ways of calculating the integral histogram:
-- integralHistogram(): Calculates the integral histogram on one input image
+- integralHistogram(): Calculates the integral histogram on one input image.
 - integralHistogramVM(): Calculates the integral histogram on two images. The 
   pixel intensity of Val image determines the bin index and the pixel intensity 
   of Mag determines the increment in magnitude of this bin.
 - integralHistogramJoint(): Calculates the integral histogram on two images. 
-  The resulting histogram is two dimensional and is build in the sense of Joint 
+  The resulting histogram is two dimensional and is build in the sense of joint 
   PDF.
 
 Once your integral histogram is calculated, you can get histograms of any 
