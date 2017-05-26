@@ -47,7 +47,7 @@ int main(int argc, char **argv) {
   hist.regionHistogram(histA, Rect(0, 0, 100, 100), out);
   
   // Print out histogram values
-  // For color image we histograms for each color channel are stacked 
+  // For color images the histograms for each color channel are stacked 
   // one after the other. This way we get N_BINS * N_CHANNELS values.
   std::vector<uint16_t>::const_iterator i = out.begin();
   for(i; i != out.end(); ++i)
