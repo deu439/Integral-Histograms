@@ -36,8 +36,8 @@ void IntegralHistogram<imType, binType, simType>::integralHistogram(
 {
   CV_Assert(image.channels() == mNChannels);
   
-  int rows = image.rows();
-  int cols = image.cols();
+  int rows = mDim.height;
+  int cols = mDim.width;
   int hist_rows = rows + 1;
   int hist_cols = cols + 1;
   int hist_len = hist_rows * hist_cols * mNBins;
@@ -226,22 +226,33 @@ void IntegralHistogram<imType, binType, simType>::regionHistogram(
   std::vector<binType>& out
 )
 {
-  out.resize(mNBins);
+  int rows = mDim.height;
+  int cols = mDim.width;
+  int hist_rows = rows + 1;
+  int hist_cols = cols + 1;
+  int hist_len = hist_rows * hist_cols * mNBins;
+  out.resize(mNBins * mNChannels);
   const binType *idata = integral.data();
   binType *odata = out.data();
   
-  int x0 = region.x;
-  int x1 = region.x + region.width;
-  int y0 = region.y;
-  int y1 = region.y + region.height;
-  
-  int row_len = (mDim.width + 1) * mNBins;
-  const binType *h00 = idata + x0 * mNBins + y0 * row_len;
-  const binType *h01 = idata + x1 * mNBins + y0 * row_len;
-  const binType *h10 = idata + x0 * mNBins + y1 * row_len;
-  const binType *h11 = idata + x1 * mNBins + y1 * row_len;
-  
-  regionHist(h00, h01, h10, h11, odata);
+  for( int ch = 0; ch < mNChannels; ch++ ) {
+    int x0 = region.x;
+    int x1 = region.x + region.width;
+    int y0 = region.y;
+    int y1 = region.y + region.height;
+
+    int row_len = (mDim.width + 1) * mNBins;
+    const binType *h00 = idata + x0 * mNBins + y0 * row_len;
+    const binType *h01 = idata + x1 * mNBins + y0 * row_len;
+    const binType *h10 = idata + x0 * mNBins + y1 * row_len;
+    const binType *h11 = idata + x1 * mNBins + y1 * row_len;
+
+    regionHist(h00, h01, h10, h11, odata);
+    
+    // skip to next channel
+    idata += hist_len;
+    odata += mNBins;
+  }
 }
 
 template<typename imType, typename binType, typename simType>
