@@ -1,3 +1,0 @@
-/home/deu/projects/IntegralHistogram/build/CMakeFiles/rebuild_cache.dir
-/home/deu/projects/IntegralHistogram/build/CMakeFiles/hist.dir
-/home/deu/projects/IntegralHistogram/build/CMakeFiles/edit_cache.dir
