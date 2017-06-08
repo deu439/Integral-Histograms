@@ -30,9 +30,9 @@ int main(int argc, char **argv) {
   Mat B = imread("imb.tiff", IMREAD_COLOR);
   
   // Instantiate IntegralHistogram with uchar image type
-  // uint16_t bin type and float similarity (dissimilarity) image type
+  // and uint16_t bin type
   // You have to supply the image size and maximum pixel value
-  IntegralHistogram<uchar, uint16_t, float> hist(
+  IntegralHistogram<uchar, uint16_t> hist(
     A.size(), N_CHANNELS, N_BINS, std::numeric_limits<uchar>::max()
   );
   
@@ -55,10 +55,11 @@ int main(int argc, char **argv) {
   std::cout << std::endl;
   
   // Compare the images using histograms in sliding window.
+  // The output image type is float
   // We've got some interesting results with LTP of the actual images
   // We implemented the X^2 distance measure (function compHist()).
   Mat sim;
-  hist.compare(histA, histB, Size(20, 20), sim);
+  hist.compare<float>(histA, histB, Size(20, 20), sim);
   
   // Show the similarity image
   normalize(sim, sim, 0, 1, NORM_MINMAX);

@@ -1,0 +1,21 @@
+# ninja log v5
+0	76	0	build.ninja	6b79c8925568376d
+0	2245	0	CMakeFiles/hist.dir/main.cpp.o	ce6ab546170e9cc0
+2246	2651	0	hist	62c0816469139599
+0	1992	0	CMakeFiles/hist.dir/main.cpp.o	ce6ab546170e9cc0
+1992	2359	0	hist	62c0816469139599
+1	2072	0	CMakeFiles/hist.dir/main.cpp.o	ce6ab546170e9cc0
+2072	2388	0	hist	62c0816469139599
+1	1734	0	CMakeFiles/hist.dir/main.cpp.o	ce6ab546170e9cc0
+1734	2054	0	hist	62c0816469139599
+1	3474	0	CMakeFiles/hist.dir/main.cpp.o	ce6ab546170e9cc0
+3474	5064	0	hist	62c0816469139599
+1	1683	0	CMakeFiles/hist.dir/main.cpp.o	ce6ab546170e9cc0
+1683	1934	0	hist	62c0816469139599
+1	1644	0	CMakeFiles/hist.dir/main.cpp.o	ce6ab546170e9cc0
+1644	1896	0	hist	62c0816469139599
+1	1825	0	CMakeFiles/hist.dir/main.cpp.o	ce6ab546170e9cc0
+1825	2665	0	hist	62c0816469139599
+28	3337	0	build.ninja	6b79c8925568376d
+1	2185	0	CMakeFiles/hist.dir/main.cpp.o	ce6ab546170e9cc0
+2185	3472	0	hist	62c0816469139599

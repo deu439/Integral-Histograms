@@ -21,16 +21,16 @@
 
 using namespace cv;
 
-template<typename imType, typename binType, typename simType>
-IntegralHistogram<imType, binType, simType>::IntegralHistogram(
+template<typename imType, typename binType>
+IntegralHistogram<imType, binType>::IntegralHistogram(
   Size dim, int nchannels, int nbins, imType maxval
 )
   : mDim(dim), mNChannels(nchannels), mNBins(nbins), mMaxVal(maxval)
 {
 }
 
-template<typename imType, typename binType, typename simType>
-void IntegralHistogram<imType, binType, simType>::integralHistogram(
+template<typename imType, typename binType>
+void IntegralHistogram<imType, binType>::integralHistogram(
   InputArray image, std::vector<binType>& hist
 )
 {
@@ -75,8 +75,8 @@ void IntegralHistogram<imType, binType, simType>::integralHistogram(
   }
 }
 
-template<typename imType, typename binType, typename simType>
-void IntegralHistogram<imType, binType, simType>::integralHistogramVM(
+template<typename imType, typename binType>
+void IntegralHistogram<imType, binType>::integralHistogramVM(
   InputArray val, InputArray mag, std::vector<binType>& hist
 )
 /* Value-magnitude version of integral histogram */
@@ -126,8 +126,8 @@ void IntegralHistogram<imType, binType, simType>::integralHistogramVM(
   }
 }
 
-template<typename imType, typename binType, typename simType>
-void IntegralHistogram<imType, binType, simType>::integralHistogramJoint(
+template<typename imType, typename binType>
+void IntegralHistogram<imType, binType>::integralHistogramJoint(
   InputArray val, InputArray mag, std::vector<binType>& hist,
   int nmag  
 )
@@ -178,8 +178,9 @@ void IntegralHistogram<imType, binType, simType>::integralHistogramJoint(
   }
 }
 
-template<typename imType, typename binType, typename simType>
-void IntegralHistogram<imType, binType, simType>::compare(
+template<typename imType, typename binType>
+template<typename simType>
+void IntegralHistogram<imType, binType>::compare(
   std::vector<binType>& h1, std::vector<binType>& h2,
   Size size, OutputArray out
 )
@@ -205,7 +206,7 @@ void IntegralHistogram<imType, binType, simType>::compare(
   // Compare each channel individually
   for( int i = 0; i < mNChannels; i++ ){
     // Compare single channel
-    compSingle(h1d, h2d, size, channels[i]);
+    compSingle<simType>(h1d, h2d, size, channels[i]);
     
     // Skip onto next channel
     h1d += hist_len;
@@ -220,8 +221,8 @@ void IntegralHistogram<imType, binType, simType>::compare(
   merged.copyTo(out);
 }
 
-template<typename imType, typename binType, typename simType>
-void IntegralHistogram<imType, binType, simType>::regionHistogram(
+template<typename imType, typename binType>
+void IntegralHistogram<imType, binType>::regionHistogram(
   const std::vector<binType>& integral, const Rect &region,
   std::vector<binType>& out
 )
@@ -255,8 +256,8 @@ void IntegralHistogram<imType, binType, simType>::regionHistogram(
   }
 }
 
-template<typename imType, typename binType, typename simType>
-void IntegralHistogram<imType, binType, simType>::wavefrontScan(
+template<typename imType, typename binType>
+void IntegralHistogram<imType, binType>::wavefrontScan(
   Mat_<imType> image, binType* hist
 )
 {
@@ -287,8 +288,8 @@ void IntegralHistogram<imType, binType, simType>::wavefrontScan(
   }
 }
 
-template<typename imType, typename binType, typename simType>
-void IntegralHistogram<imType, binType, simType>::wavefrontScanVM(
+template<typename imType, typename binType>
+void IntegralHistogram<imType, binType>::wavefrontScanVM(
   Mat_<imType> val, Mat_<imType> mag, binType* hist
 )
 /* Wavefront scan using value and magnitude */
@@ -321,8 +322,8 @@ void IntegralHistogram<imType, binType, simType>::wavefrontScanVM(
   }
 }
 
-template<typename imType, typename binType, typename simType>
-void IntegralHistogram<imType, binType, simType>::wavefrontScanJoint(
+template<typename imType, typename binType>
+void IntegralHistogram<imType, binType>::wavefrontScanJoint(
   Mat_<imType> val, Mat_<imType> mag, binType* hist, int nmag
 )
 /* Wavefront scan using value and magnitude */
@@ -358,8 +359,9 @@ nval;
   }
 }
 
-template<typename imType, typename binType, typename simType>
-void IntegralHistogram<imType, binType, simType>::compSingle(
+template<typename imType, typename binType>
+template<typename simType>
+void IntegralHistogram<imType, binType>::compSingle(
   const binType *h1, const binType *h2, Size size, Mat_<simType> out
 )
 /* Compares single channel integral histograms */
@@ -395,13 +397,13 @@ void IntegralHistogram<imType, binType, simType>::compSingle(
       
       regionHist( h1+h00, h1+h01, h1+h10, h1+h11, res1d);
       regionHist( h2+h00, h2+h01, h2+h10, h2+h11, res2d);
-      p_row[x] = compHist(res1d, res2d, size);
+      p_row[x] = compHist<simType>(res1d, res2d, size);
     }
   }
 }
 
-template<typename imType, typename binType, typename simType>
-inline void IntegralHistogram<imType, binType, simType>::sumHist(
+template<typename imType, typename binType>
+inline void IntegralHistogram<imType, binType>::sumHist(
   binType* hist00, binType* hist01, binType* hist10, binType* hist11
 )
 {
@@ -410,8 +412,8 @@ inline void IntegralHistogram<imType, binType, simType>::sumHist(
   }
 }
 
-template<typename imType, typename binType, typename simType>
-inline void IntegralHistogram<imType, binType, simType>::regionHist(
+template<typename imType, typename binType>
+inline void IntegralHistogram<imType, binType>::regionHist(
   const binType* hist00, const binType* hist01, const binType* hist10,
   const binType* hist11, binType* out
 )
@@ -421,8 +423,9 @@ inline void IntegralHistogram<imType, binType, simType>::regionHist(
   }
 }
 
-template<typename imType, typename binType, typename simType>
-inline simType IntegralHistogram<imType, binType, simType>::compHist(
+template<typename imType, typename binType>
+template<typename simType>
+inline simType IntegralHistogram<imType, binType>::compHist(
   binType* hist1, binType* hist2, const Size &size)
 /* Compares histograms using sliding window and X^2 distance measure */
 {
@@ -437,8 +440,8 @@ inline simType IntegralHistogram<imType, binType, simType>::compHist(
   return sim;
 }
 
-template<typename imType, typename binType, typename simType>
-inline void IntegralHistogram<imType, binType, simType>::histMatch(
+template<typename imType, typename binType>
+inline void IntegralHistogram<imType, binType>::histMatch(
   const binType* temp, const binType* hist, binType *out
 )
 {

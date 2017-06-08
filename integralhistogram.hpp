@@ -22,7 +22,7 @@
 
 using namespace cv;
 
-template<typename imType, typename binType, typename simType>
+template<typename imType, typename binType>
 class IntegralHistogram
 {
 private:
@@ -40,6 +40,7 @@ public:
   void integralHistogramJoint( InputArray val, InputArray mag,
                                std::vector<binType>& hist, int nmag);
   
+  template<typename simType>
   void compare(std::vector<binType> &h1, std::vector<binType> &h2,
                Size size, OutputArray out);
   void regionHistogram(const std::vector<binType> &integral, 
@@ -54,6 +55,8 @@ private:
                        binType* hist);
   void wavefrontScanJoint(Mat_<imType> val, Mat_<imType> mag,
                           binType* hist, int nmag);
+  
+  template<typename simType>
   void compSingle(const binType *h1, const binType *h2,
                   Size size, Mat_<simType> out);
   inline void sumHist(binType *hist1, binType *hist2,
@@ -61,6 +64,7 @@ private:
   inline void regionHist(const binType *hist00, const binType *hist01, 
                          const binType *hist10, const binType *hist11,
                          binType *out);
+  template<typename simType>
   inline simType compHist(binType *hist1, binType *hist2,
                           const Size &size);
   inline void histMatch(const binType *temp, const binType *hist, binType *out);

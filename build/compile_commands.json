@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/deu/projects/IntegralHistogram/build",
+  "command": "/usr/bin/c++   -isystem /usr/include/opencv  -g   -o CMakeFiles/hist.dir/main.cpp.o -c /home/deu/projects/IntegralHistogram/main.cpp",
+  "file": "/home/deu/projects/IntegralHistogram/main.cpp"
+}
+]
