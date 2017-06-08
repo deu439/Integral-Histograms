@@ -439,33 +439,3 @@ inline simType IntegralHistogram<imType, binType>::compHist(
   }
   return sim;
 }
-
-template<typename imType, typename binType>
-inline void IntegralHistogram<imType, binType>::histMatch(
-  const binType* temp, const binType* hist, binType *out
-)
-{
-  
-  int i, j;
-  for( i = 0; i < mNBins; i++ ){
-    out[i] = 0;
-  }
-  
-  float cdf1 = hist[0];
-  float cdf2 = temp[0];
-  for(i=0, j=0; i < mNBins; cdf1 += hist[++i]){
-    
-    // Pokud vnorena smycka dojde do konce secti zbyle urovne do posledni
-    if( j >= mNBins )
-      out[mNBins - 1] += hist[i];
-    
-    for(; j<mNBins; cdf2 += temp[++j]){
-      if( cdf1 <= cdf2 ){
-        out[j] += hist[i];
-        break; // Posunme se na dalsi polozku cdf1
-      }
-    }
-  }
-}
-
-
