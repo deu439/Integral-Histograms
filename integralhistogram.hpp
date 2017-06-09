@@ -29,7 +29,6 @@ public:
   template<typename simType>
   struct Compare
   {
-  public:
       typedef simType (*f)(binType *h1, binType *h2, int len);
   };
   
