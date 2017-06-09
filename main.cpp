@@ -25,6 +25,19 @@
 #define N_CHANNELS  3
 #define N_BINS      20
 
+
+float compare_X2(uint16_t *h1, uint16_t *h2, int len)
+{
+  float sim = 0;
+  float val;
+  for( int i = 0; i < len; i++ ){
+    val = h1[i] - h2[i];
+    if(val != 0)
+      sim += (val*val) / (h1[i] + h2[i]);
+  }
+  return sim;
+}
+
 int main(int argc, char **argv) {
   Mat A = imread("ima.tiff", IMREAD_COLOR);
   Mat B = imread("imb.tiff", IMREAD_COLOR);
@@ -59,7 +72,7 @@ int main(int argc, char **argv) {
   // We've got some interesting results with LTP of the actual images
   // We implemented the X^2 distance measure (function compHist()).
   Mat sim;
-  hist.compare<float>(histA, histB, Size(20, 20), sim);
+  hist.compare<float>(histA, histB, Size(20, 20), sim, compare_X2);
   
   // Show the similarity image
   normalize(sim, sim, 0, 1, NORM_MINMAX);
