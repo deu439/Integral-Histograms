@@ -21,10 +21,18 @@
 #include <opencv2/opencv.hpp>
 
 using namespace cv;
-
+  
 template<typename imType, typename binType>
 class IntegralHistogram
 {
+public:
+  template<typename simType>
+  struct Compare
+  {
+  public:
+      typedef simType (*f)(binType *h1, binType *h2, int len);
+  };
+  
 private:
   Size mDim;
   int mNChannels;
@@ -42,7 +50,8 @@ public:
   
   template<typename simType>
   void compare(std::vector<binType> &h1, std::vector<binType> &h2,
-               Size size, OutputArray out);
+               Size size, OutputArray out, 
+               typename Compare<simType>::f cmp);
   void regionHistogram(const std::vector<binType> &integral, 
                        const Rect &region,
                        std::vector<binType> &out);
@@ -58,7 +67,9 @@ private:
   
   template<typename simType>
   void compSingle(const binType *h1, const binType *h2,
-                  Size size, Mat_<simType> out);
+                  Size size, Mat_<simType> out, 
+                  typename Compare<simType>::f cmp
+                 );
   inline void sumHist(binType *hist1, binType *hist2,
                       binType *hist3, binType *out);
   inline void regionHist(const binType *hist00, const binType *hist01, 
@@ -72,3 +83,4 @@ private:
 
 #include "integralhistogram.cpp"
 #endif // INTEGRALHISTOGRAM_HPP
+
